@@ -1,0 +1,37 @@
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+
+# فایل‌های سیستمی
+.DS_Store
+*.swp
+*.tmp
+*.bak
+*.pid
+*.suo
+*.user
+*.userprefs
+*.unityproj
+*.booproj
+
+# فایل‌های مربوط به پلاگین‌ها
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# فایل‌های مربوط به پلتفرم‌های مختلف
+*.apk
+*.aab
+*.obb
+*.exe
+*.app
+*.dmg
+*.iso
+*.ipa
+*.msi
+*.webm
