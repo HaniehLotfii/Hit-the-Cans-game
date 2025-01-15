@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
             ball.GetComponent<Rigidbody>().AddForce(dir * ballForce, ForceMode.Impulse);
             readyToshoot = false;
             totalBalls --;
+            // UIManager.instance.B_Start();
             if(totalBalls <= 0)
             {
                 //check game over
