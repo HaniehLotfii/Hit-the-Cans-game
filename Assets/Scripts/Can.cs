@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Can : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public bool hasFallen;
+
+    void OnTriggerEnter(Collider other)
     {
-        
+        if(other.gameObject.CompareTag("Resetter"))
+        {
+            hasFallen = true;
+            GameManager.instance.GroundFallenCheck();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

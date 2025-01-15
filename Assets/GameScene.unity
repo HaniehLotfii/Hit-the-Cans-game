@@ -3202,6 +3202,14 @@ MonoBehaviour:
   ball: {fileID: 795938323}
   target: {fileID: 123694695}
   ballForce: 300
+  totalBalls: 2
+  readyToshoot: 0
+  currentLevel: 0
+  canSetGRP:
+  - {fileID: 272689715}
+  - {fileID: 1519204862}
+  - {fileID: 279765928}
+  - {fileID: 1025947178}
 --- !u!4 &1718332158
 Transform:
   m_ObjectHideFlags: 0

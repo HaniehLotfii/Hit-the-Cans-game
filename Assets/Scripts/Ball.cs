@@ -25,6 +25,15 @@ public class Ball : MonoBehaviour
             transform.position = spwanPos;
             this.GetComponent<Animator>().enabled = true;
             gameObject.SetActive(true);
+
+            StartCoroutine(SetReadyToShoot());
         }
+
+        IEnumerator SetReadyToShoot()
+        {
+            yield return new WaitForSecondsRealtime(2.0f);
+            GameManager.instance.readyToshoot = true;
+        }
+
 
 }
