@@ -1,18 +1,52 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
 
 
-public static UIManager instance;
 
+public static UIManager instance;
+public GameObject[] allBallImg;
+public Sprite enabledBallImg;
 public GameObject blackFg;
 public GameObject HomeUI, GameUI;
 public GameObject gameScene;
+
+    void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+    public void UpdatedBallIcons()
+    {
+        int ballcount = GameManager.instance.totalBalls;
+        for (int i = 0; i < 5; i++)
+        {
+            Image image = allBallImg[i].GetComponent<Image>();
+        if (i < ballcount)
+        {
+            allBallImg[i].SetActive(true); // فعال کردن تصویر
+            allBallImg[i].GetComponent<Image>().sprite = enabledBallImg; // نمایش تصویر فعال
+        }
+        else
+        {
+            allBallImg[i].SetActive(false); // غیرفعال کردن تصویر
+        }
+        }
+    }
+
     void Start()
     {
+        HomeUI.SetActive(true);
         gameScene.SetActive (false);
     }
     public void B_Start()

@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour
     public int currentLevel;
     public GameObject [] canSetGRP;
 
+    public Ball ballScript;
+    public bool gameHasStarted;
+
+
     void Awake()
     {
         if(instance == null)
@@ -27,6 +31,12 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+
+    }
+
+    void StartGame()
+    {
+        gameHasStarted = true;
         readyToshoot = true;
     }
 
@@ -48,6 +58,7 @@ public class GameManager : MonoBehaviour
             ball.GetComponent<Rigidbody>().AddForce(dir * ballForce, ForceMode.Impulse);
             readyToshoot = false;
             totalBalls --;
+            UIManager.instance.UpdatedBallIcons();
             // UIManager.instance.B_Start();
             if(totalBalls <= 0)
             {
