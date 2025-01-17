@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Resetter
+  - Can
   layers:
   - Default
   - TransparentFX

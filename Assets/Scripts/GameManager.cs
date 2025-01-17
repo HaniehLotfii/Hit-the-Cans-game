@@ -5,17 +5,27 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public GameObject ball;
-    Plane plane = new Plane(Vector3.forward, 0);
-    public Transform target;
     public float ballForce;
+
+    public Transform target;
+
     public int totalBalls;
     public bool readyToshoot;
+    public GameObject[] allLevels;
+
     public int currentLevel;
-    public GameObject [] canSetGRP;
+    
+    Plane plane = new Plane(Vector3.forward,0);
+    // public GameObject [] canSetGRP;
 
     public Ball ballScript;
     public bool gameHasStarted;
 
+    public int shootedBall;
+
+    public GameObject gameOverUI;
+
+// Use this for initialization
 
     void Awake()
     {
@@ -25,16 +35,17 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Destroy(this.gameObject);
+            // Destroy(this.gameObject);
+            Destroy(this);
         }
     }
 
     void Start()
     {
-
+  
     }
 
-    void StartGame()
+    public void StartGame()
     {
         gameHasStarted = true;
         readyToshoot = true;
@@ -57,6 +68,7 @@ public class GameManager : MonoBehaviour
             // Shoot the ball
             ball.GetComponent<Rigidbody>().AddForce(dir * ballForce, ForceMode.Impulse);
             readyToshoot = false;
+            shootedBall++;
             totalBalls --;
             UIManager.instance.UpdatedBallIcons();
             // UIManager.instance.B_Start();
@@ -74,6 +86,14 @@ public class GameManager : MonoBehaviour
             Vector3 point = ray.GetPoint(dist);
             target.position = new Vector3(point.x, point.y, 0);
         }
+        if (totalBalls <= 0)
+{
+    // Trigger Game Over sequence
+    print("Game Over");
+    GameOver();
+}
+
+
     }
 
     public void GroundFallenCheck()
@@ -82,14 +102,15 @@ public class GameManager : MonoBehaviour
         {
             //load next level
             print("load next level");
+            LoadNextLevel();
         }
     }
 
     bool AllGrounded()
     {
-        Transform currentSet = canSetGRP[currentLevel].transform;
+        Transform canSet = allLevels[currentLevel].transform;
 
-        foreach(Transform t in currentSet)
+        foreach(Transform t in canSet)
         {
             if(t.GetComponent<Can>().hasFallen == false)
             {
@@ -99,4 +120,105 @@ public class GameManager : MonoBehaviour
         }
         return true;
     }
+    public void LoadNextLevel()
+    {
+        if(gameHasStarted)
+        {
+            StartCoroutine(LoadNextLevelRoutine());
+        }
+    }
+    IEnumerator LoadNextLevelRoutine()
+{
+    Debug.Log("Loading Next Level");
+    yield return new WaitForSeconds(1.5f);
+
+    UIManager.instance.ShowBlackFade();
+    readyToshoot = false;
+
+    // Deactivate current level
+    Debug.Log($"Deactivating level {currentLevel}");
+    allLevels[currentLevel].SetActive(false);
+
+    // Increment level
+    currentLevel++;
+    if (currentLevel >= allLevels.Length) currentLevel = 0;
+
+    // Activate next level
+    Debug.Log($"Activating level {currentLevel}");
+    allLevels[currentLevel].SetActive(true);
+
+    yield return new WaitForSeconds(1.0f);
+    UIManager.instance.UpdateScoreMultiplier();
+    shootedBall = 0;
+    UIManager.instance.UpdatedBallIcons();
+    ballScript.RepositionBall();
+}
+// ازینجا
+public void GameOver()
+{
+
+    readyToshoot = false; // Stop the player from shooting
+    gameHasStarted = false;
+    UIManager.instance.ShowBlackFade();
+    gameOverUI.SetActive(true); // Show the Game Over panel
+}
+
+public void RestartGame()
+{
+    Debug.Log("Restart button clicked!");
+
+    // Reset game state
+    currentLevel = 0;
+    totalBalls = 5;
+    shootedBall = 0;
+
+    // Reset score multiplier via UIManager
+    UIManager.instance.ScoreMultiplier = 1;
+
+    // Deactivate all levels
+    foreach (GameObject level in allLevels)
+    {
+        level.SetActive(false); // Deactivate the levels
+    }
+
+    // Activate the first level and its cans
+    allLevels[currentLevel].SetActive(true);
+
+    // Reset cans in the current level
+    ResetCansInLevel(currentLevel);
+
+    // Reset ball
+    ballScript.RepositionBall(); // Reset ball position
+    UIManager.instance.UpdatedBallIcons(); // Update UI
+    UIManager.instance.UpdateScoreMultiplier(); // Update multiplier display
+    UIManager.instance.ResetScore(); // Reset score
+
+    gameOverUI.SetActive(false); // Hide Game Over UI
+    StartGame();
+}
+
+private void ResetCansInLevel(int levelIndex)
+{
+    // Get the transform of the current level
+    Transform canSet = allLevels[levelIndex].transform;
+
+    // Iterate through the cans and reset their states
+    foreach (Transform can in canSet)
+    {
+        if (can.CompareTag("Can"))
+        {
+            Can canScript = can.GetComponent<Can>();
+            if (canScript != null)
+            {
+                canScript.hasFallen = false; // Reset the fallen state
+                can.gameObject.SetActive(true); // Reactivate the can if it's deactivated
+                // Optionally, reset can's position if needed:
+                // can.position = initialPosition; 
+            }
+        }
+    }
+}
+
+
+
 }

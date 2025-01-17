@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -15,6 +16,13 @@ public GameObject blackFg;
 public GameObject HomeUI, GameUI;
 public GameObject gameScene;
 
+public int score;
+public TextMeshProUGUI scoreText;
+
+public int ScoreMultiplier = 1;
+public GameObject scoreMultiplierImage;
+public TextMeshProUGUI scoreMultiText;
+
     void Awake()
     {
         if(instance == null)
@@ -23,8 +31,15 @@ public GameObject gameScene;
         }
         else
         {
-            Destroy(this.gameObject);
+            // Destroy(this.gameObject);
+            Destroy(gameObject);
         }
+    }
+    void Start()
+    {
+        HomeUI.SetActive(true);
+        GameUI.SetActive(false);
+        gameScene.SetActive (false);
     }
     public void UpdatedBallIcons()
     {
@@ -44,23 +59,29 @@ public GameObject gameScene;
         }
     }
 
-    void Start()
-    {
-        HomeUI.SetActive(true);
-        gameScene.SetActive (false);
-    }
+    
     public void B_Start()
     {
         StartCoroutine(StartGameRoutine());
     }
+    public void B_Exit()
+    {
+        Application.Quit();
+    }
     IEnumerator StartGameRoutine()
     {
-        StartCoroutine(FadeRoutine());
-        yield return new WaitForSeconds (0.5f);
-        HomeUI.SetActive(false);
+        ShowBlackFade();
+        yield return new WaitForSeconds (1f);
         gameScene.SetActive(true);
+        HomeUI.SetActive(false);
         GameUI.SetActive(true);
-        GameManager.instance.readyToshoot = true;
+        // GameManager.instance.readyToshoot = true;
+        GameManager.instance.StartGame();
+    }
+    public void ShowBlackFade()
+    {
+        StartCoroutine(FadeRoutine());
+
     }
     IEnumerator FadeRoutine()
     {
@@ -74,4 +95,38 @@ public GameObject gameScene;
     {
         
     }
+    public void UpdateScore()
+    {
+        score += ScoreMultiplier*1;
+        scoreText.text = score.ToString();
+    }
+    public void UpdateScoreMultiplier()
+    {
+        if(GameManager.instance.shootedBall == 1)
+        {
+            ScoreMultiplier++;
+            scoreMultiplierImage.SetActive(true);
+            scoreMultiText.text = ScoreMultiplier.ToString();
+
+        }else
+        {
+            ScoreMultiplier = 1;
+            scoreMultiplierImage.SetActive(false);
+        }
+    }
+    //ازینجا
+
+    public void OnRestartButtonClicked()
+{
+    // Call the RestartGame method from the GameManager to reset everything
+    GameManager.instance.RestartGame();
+}
+
+    public void ResetScore()
+{
+    score = 0;
+    scoreText.text = score.ToString();
+}
+
+
 }
