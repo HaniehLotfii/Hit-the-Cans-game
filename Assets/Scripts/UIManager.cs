@@ -3,25 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
 
 
 
-public static UIManager instance;
-public GameObject[] allBallImg;
-public Sprite enabledBallImg;
-public GameObject blackFg;
-public GameObject HomeUI, GameUI;
-public GameObject gameScene;
+    public static UIManager instance;
+    public GameObject pausePanel;
+    public static bool isRestart;
+    public GameObject[] allBallImg;
+    public Sprite enabledBallImg;
+    public GameObject blackFg;
+    public GameObject HomeUI, GameUI;
+    public GameObject gameScene;
+    public GameObject gameOverUI;
 
-public int score;
-public TextMeshProUGUI scoreText;
+    public int score;
+    public TextMeshProUGUI scoreText;
 
-public int ScoreMultiplier = 1;
-public GameObject scoreMultiplierImage;
-public TextMeshProUGUI scoreMultiText;
+    public int ScoreMultiplier = 1;
+    public GameObject scoreMultiplierImage;
+    public TextMeshProUGUI scoreMultiText;
 
     void Awake()
     {
@@ -37,9 +41,19 @@ public TextMeshProUGUI scoreMultiText;
     }
     void Start()
     {
+        
         HomeUI.SetActive(true);
-        GameUI.SetActive(false);
         gameScene.SetActive (false);
+        if (isRestart)
+        {
+            isRestart = false;
+            HomeUI.SetActive(false);
+            gameScene.SetActive (false);
+            GameManager.instance.StartGame();
+        }
+
+        
+
     }
     public void UpdatedBallIcons()
     {
@@ -114,19 +128,38 @@ public TextMeshProUGUI scoreMultiText;
             scoreMultiplierImage.SetActive(false);
         }
     }
-    //ازینجا
 
-    public void OnRestartButtonClicked()
-{
-    // Call the RestartGame method from the GameManager to reset everything
-    GameManager.instance.RestartGame();
-}
+    public void B_Restart()
+    {
+        StartCoroutine(RestartRoutine());
+    }
+    IEnumerator RestartRoutine()
+    {
+        ShowBlackFade();
+        isRestart = true;
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene(0, LoadSceneMode.Additive);
 
-    public void ResetScore()
-{
-    score = 0;
-    scoreText.text = score.ToString();
-}
+    }
+    public void B_Back(){
+        pausePanel.SetActive(true);
+        Time.timeScale = 0;
+    }
+    public void B_Back_Yes(){
+
+        Time.timeScale = 1;
+        pausePanel.SetActive(false);
+        HomeUI.SetActive(true);
+
+    }
+    public void B_Back_No(){
+
+        Time.timeScale = 1;
+        pausePanel.SetActive(false);
+    }
+
+    
+
 
 
 }
