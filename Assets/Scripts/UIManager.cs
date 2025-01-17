@@ -79,9 +79,15 @@ public class UIManager : MonoBehaviour
         StartCoroutine(StartGameRoutine());
     }
     public void B_Exit()
-    {
-        Application.Quit();
-    }
+{
+    // Exit the game
+    Application.Quit();
+
+    // If running in the editor, stop the play mode
+    #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+    #endif
+}
     IEnumerator StartGameRoutine()
     {
         ShowBlackFade();
@@ -138,7 +144,8 @@ public class UIManager : MonoBehaviour
         ShowBlackFade();
         isRestart = true;
         yield return new WaitForSeconds(1);
-        SceneManager.LoadScene(0, LoadSceneMode.Additive);
+        // SceneManager.LoadScene(0, LoadSceneMode.Additive);
+        SceneManager.LoadScene(0, LoadSceneMode.Single);
 
     }
     public void B_Back(){

@@ -49,6 +49,12 @@ public class GameManager : MonoBehaviour
     {
         StartGame();
         
+        if (UIManager.isRestart)
+        {
+            UIManager.isRestart = false;
+            GameManager.instance.StartGame();
+        }
+
   
     }
 
@@ -87,6 +93,8 @@ public class GameManager : MonoBehaviour
             totalBalls --;
             UIManager.instance.UpdatedBallIcons();
 
+            SoundManager.instance.PlaySound(SoundManager.instance.ballThrowSound);
+
             // SoundManager.instance.PlayFx(FxTypes.BALLTHROW);
 
             // UIManager.instance.B_Start();
@@ -94,6 +102,7 @@ public class GameManager : MonoBehaviour
             {
                 //check game over
                 print("GameOver");
+                SoundManager.instance.PlaySound(SoundManager.instance.gameOverSound);
                 StartCoroutine(CheckGameOver());
             }
         }
