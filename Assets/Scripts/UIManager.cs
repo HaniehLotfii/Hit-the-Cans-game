@@ -35,7 +35,6 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            // Destroy(this.gameObject);
             Destroy(gameObject);
         }
     }
@@ -63,12 +62,12 @@ public class UIManager : MonoBehaviour
             Image image = allBallImg[i].GetComponent<Image>();
         if (i < ballcount)
         {
-            allBallImg[i].SetActive(true); // فعال کردن تصویر
-            allBallImg[i].GetComponent<Image>().sprite = enabledBallImg; // نمایش تصویر فعال
+            allBallImg[i].SetActive(true); 
+            allBallImg[i].GetComponent<Image>().sprite = enabledBallImg;
         }
         else
         {
-            allBallImg[i].SetActive(false); // غیرفعال کردن تصویر
+            allBallImg[i].SetActive(false); 
         }
         }
     }
@@ -80,10 +79,8 @@ public class UIManager : MonoBehaviour
     }
     public void B_Exit()
 {
-    // Exit the game
     Application.Quit();
 
-    // If running in the editor, stop the play mode
     #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
     #endif
@@ -95,7 +92,6 @@ public class UIManager : MonoBehaviour
         gameScene.SetActive(true);
         HomeUI.SetActive(false);
         GameUI.SetActive(true);
-        // GameManager.instance.readyToshoot = true;
         GameManager.instance.StartGame();
     }
     public void ShowBlackFade()
@@ -110,7 +106,6 @@ public class UIManager : MonoBehaviour
         blackFg.SetActive (false);
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -164,8 +159,6 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1;
         pausePanel.SetActive(false);
     }
-
-    
 
 
 

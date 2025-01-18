@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
 
     public Dictionary<Transform, Vector3> initialPositions = new Dictionary<Transform, Vector3>();
 
-// Use this for initialization
 
     void Awake()
     {
@@ -40,7 +39,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // Destroy(this.gameObject);
             Destroy(this);
         }
     }
@@ -63,9 +61,9 @@ public class GameManager : MonoBehaviour
         gameHasStarted = true;
         readyToshoot = true;
         gameHasStarted = true;
-        totalBalls = 5; // مقداردهی تعداد توپ‌ها
-        shootedBall = 0; // مقداردهی توپ‌های شلیک‌شده
-        UIManager.instance.UpdatedBallIcons(); // به‌روزرسانی UI
+        totalBalls = 5; 
+        shootedBall = 0; 
+        UIManager.instance.UpdatedBallIcons(); 
     }
 
     void Update()
@@ -95,12 +93,10 @@ public class GameManager : MonoBehaviour
 
             SoundManager.instance.PlaySound(SoundManager.instance.ballThrowSound);
 
-            // SoundManager.instance.PlayFx(FxTypes.BALLTHROW);
 
             // UIManager.instance.B_Start();
             if(totalBalls <= 0)
             {
-                //check game over
                 print("GameOver");
                 SoundManager.instance.PlaySound(SoundManager.instance.gameOverSound);
                 StartCoroutine(CheckGameOver());
@@ -116,7 +112,6 @@ public class GameManager : MonoBehaviour
         }
         if (totalBalls <= 0)
             {
-                // Trigger Game Over sequence
                 print("Game Over");
                 
             }
@@ -127,7 +122,6 @@ public class GameManager : MonoBehaviour
     {
         if(AllGrounded())
         {
-            //load next level
             print("load next level");
             LoadNextLevel();
         }
@@ -162,10 +156,8 @@ public class GameManager : MonoBehaviour
         UIManager.instance.ShowBlackFade();
         readyToshoot = false;
 
-        // Deactivate current level
         allLevels[currentLevel].SetActive(false);
 
-        // Increment level
         currentLevel++;
         if (currentLevel > allLevels.Length) currentLevel = 0;
 
