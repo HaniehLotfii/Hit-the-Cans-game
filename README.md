@@ -10,7 +10,7 @@ This is a simple 3D ball throwing game made with Unity, inspired by bowling-styl
 
 ## How to Run
 1. Clone or download the repository.
-2. Open the project in Unity (recommended Unity version: the one used during development).
+2. Open the project in Unity.
 3. Open the main scene.
 4. Press Play to run the game in the Unity Editor.
 
