@@ -18,4 +18,4 @@ This is a simple 3D ball throwing game made with Unity, inspired by bowling-styl
 - Mouse or touch input to aim and throw the ball (depending on implementation).
 
 ## Notes
-This project was created as a practice/demo project and can be extended with scoring, levels, UI, and sound effects.
+This project was created as a practice/demo project and has scoring, levels, UI, and sound effects.
